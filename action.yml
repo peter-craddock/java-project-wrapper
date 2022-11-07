@@ -1,0 +1,44 @@
+name: 'Java Setup for ant/ivy project'
+description: 'A collection of steps in a public repo'
+inputs:
+  java-version:  # the java version
+    description: 'The version of java to use'
+    required: false
+    default: '8'
+  java-distribution:  # the java distribution
+    description: 'The distribution of java to use'
+    required: false
+    default: 'zulu'
+runs:
+  using: "composite"
+  steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v3
+
+    - uses: actions/setup-java@v3
+      with:
+        java-version: ${{ inputs.java-version }}
+        distribution: ${{ inputs.java-distribution }}
+
+    # set up ivy cache
+    - uses: actions/cache@v3
+      id: ivyCache
+      with:
+        path: ~/.ivy2/cache
+        key: ${{ runner.os }}-ivy-${{ hashFiles('**/ivy.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-ivy-
+
+    #add ivy to runner
+    - name: set up ivy and ant contrib
+      shell: bash
+      if: steps.antCache.outputs.cache-hit != 'true'
+      run: |
+        mkdir ~/.ant/
+        mkdir ~/.ant/lib
+        wget -O ivy.zip https://dlcdn.apache.org/ant/ivy/2.5.1/apache-ivy-2.5.1-bin.zip
+        unzip -q ivy.zip -d ./ivy
+        cp ./ivy/**/*.jar ~/.ant/lib
+        wget -O contrib.zip https://sourceforge.net/projects/ant-contrib/files/ant-contrib/1.0b3/ant-contrib-1.0b3-bin.zip
+        unzip -q contrib.zip -d ./contrib
+        cp ./contrib/**/*.jar ~/.ant/lib
