@@ -29,6 +29,12 @@ runs:
         restore-keys: |
           ${{ runner.os }}-ivy-
 
+    - uses: actions/cache@v3
+      id: antCache
+      with:
+        path: ~/.ant/lib
+        key: ${{ runner.os }}-ant
+
     #add ivy to runner
     - name: set up ivy and ant contrib
       shell: bash
