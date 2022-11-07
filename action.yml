@@ -15,6 +15,7 @@ runs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v3
 
+    # set up java
     - uses: actions/setup-java@v3
       with:
         java-version: ${{ inputs.java-version }}
@@ -29,6 +30,7 @@ runs:
         restore-keys: |
           ${{ runner.os }}-ivy-
 
+    # set up ant cache
     - uses: actions/cache@v3
       id: antCache
       with:
