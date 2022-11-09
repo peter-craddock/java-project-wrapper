@@ -12,7 +12,7 @@ inputs:
   ivy-cache-version:  # extra ivy-cache-label
     description: 'extra ivy cache label'
     required: false
-    default: ''
+    default: 'main'
 runs:
   using: "composite"
   steps:
@@ -30,7 +30,7 @@ runs:
       id: ivyCache
       with:
         path: ~/.ivy2/cache
-        key: ${{ runner.os }}-ivy${{ inputs.ivy-cache-version }}-${{ hashFiles('**/ivy.xml') }}
+        key: ${{ runner.os }}-ivy-${{ inputs.ivy-cache-version }}-${{ hashFiles('**/ivy.xml') }}
         restore-keys: |
           ${{ runner.os }}-ivy-
 
