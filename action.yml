@@ -54,7 +54,7 @@ runs:
       run: |
         mkdir ~/.ant/
         mkdir ~/.ant/lib
-        wget -O ivy.zip https://dlcdn.apache.org/ant/ivy/2.5.1/apache-ivy-2.5.1-bin.zip
+        wget -O ivy.zip https://dlcdn.apache.org/ant/ivy/2.5.2/apache-ivy-2.5.2-bin.zip
         unzip -q ivy.zip -d ./ivy
         cp ./ivy/**/*.jar ~/.ant/lib
         wget -O contrib.zip https://sourceforge.net/projects/ant-contrib/files/ant-contrib/1.0b3/ant-contrib-1.0b3-bin.zip
